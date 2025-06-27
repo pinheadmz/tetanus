@@ -1,7 +1,6 @@
 use num_bigint::BigUint;
 
-use tetanus::fast_pow;
-use tetanus::fast_pow_mod;
+use tetanus::*;
 
 #[test]
 fn test_fast_pow() {
@@ -33,4 +32,23 @@ fn test_fast_pow() {
             BigUint::parse_bytes(b"77", 10).unwrap(),
             BigUint::parse_bytes(b"88888", 10).unwrap()),
         BigUint::parse_bytes(b"28936", 10).unwrap());
+}
+
+#[test]
+fn test_gcd() {
+    assert_eq!(
+        gcd(
+            BigUint::parse_bytes(b"1071", 10).unwrap(),
+            BigUint::parse_bytes(b"462", 10).unwrap()),
+        BigUint::parse_bytes(b"21", 10).unwrap());
+    assert_eq!(
+        gcd(
+            BigUint::parse_bytes(b"91283", 10).unwrap(),
+            BigUint::parse_bytes(b"12311", 10).unwrap()),
+        BigUint::parse_bytes(b"1", 10).unwrap());
+    assert_eq!(
+        gcd(
+            BigUint::parse_bytes(b"2940", 10).unwrap(),
+            BigUint::parse_bytes(b"3150", 10).unwrap()),
+        BigUint::parse_bytes(b"210", 10).unwrap());
 }

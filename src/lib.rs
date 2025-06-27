@@ -53,3 +53,13 @@ pub fn fast_pow(base: BigUint, exp: BigUint) -> BigUint {
 pub fn fast_pow_mod(base: BigUint, exp: BigUint, modulus: BigUint) -> BigUint {
     return fast_pow_mod_impl(base, exp, Some(modulus));
 }
+
+pub fn gcd(mut a: BigUint, mut b: BigUint) -> BigUint {
+    while b != BigUint::ZERO {
+        let temp = b.clone();
+        b = &a % &b;
+        println!("Remainder of {} / {} is {}", temp.to_str_radix(10), a.to_str_radix(10), b.to_str_radix(10));
+        a = temp.clone();
+    }
+    return a;
+}
