@@ -63,3 +63,29 @@ pub fn gcd(mut a: BigInt, mut b: BigInt) -> BigInt {
     }
     return a;
 }
+
+pub fn mod_inverse(a: BigInt, n: BigInt) -> BigInt {
+    let mut t = BigInt::ZERO;
+    let mut newt = BigInt::from(1u32);
+    let mut r = n.clone();
+    let mut newr = a.clone();
+
+    while newr != BigInt::ZERO {
+        let quotient = &r / &newr;
+        let mut temp = newt.clone();
+        newt = &t - (&quotient * &newt);
+        t = temp.clone();
+        temp = newr.clone();
+        newr = &r - (&quotient * &newr);
+        r = temp.clone();
+    }
+
+    if r > BigInt::from(1u32) {
+        panic!("a is not invertible");
+    }
+
+    if t < BigInt::ZERO {
+        t += &n;
+    }
+    return t;
+}
