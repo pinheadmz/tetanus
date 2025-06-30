@@ -1,13 +1,13 @@
-use num_bigint::BigUint;
+use num_bigint::BigInt;
 
-pub fn fast_pow_mod_impl(base: BigUint, exp: BigUint, modulus: Option<BigUint>) -> BigUint {
+pub fn fast_pow_mod_impl(base: BigInt, exp: BigInt, modulus: Option<BigInt>) -> BigInt {
     println!("Exponent {} in binary: {}", exp.to_str_radix(10), exp.to_str_radix(2));
     let bits: u64 = exp.bits();
 
     println!("# of bits in exponent: {}", bits);
 
     let mut x = 0;
-    let mut answer = BigUint::from(1u32);
+    let mut answer = BigInt::from(1u32);
     let mut bit = if exp.bit(x) {1} else {0};
     if bit == 1 {
         answer *= &base;
@@ -46,16 +46,16 @@ pub fn fast_pow_mod_impl(base: BigUint, exp: BigUint, modulus: Option<BigUint>) 
     return answer;
 }
 
-pub fn fast_pow(base: BigUint, exp: BigUint) -> BigUint {
+pub fn fast_pow(base: BigInt, exp: BigInt) -> BigInt {
     return fast_pow_mod_impl(base, exp, None);
 }
 
-pub fn fast_pow_mod(base: BigUint, exp: BigUint, modulus: BigUint) -> BigUint {
+pub fn fast_pow_mod(base: BigInt, exp: BigInt, modulus: BigInt) -> BigInt {
     return fast_pow_mod_impl(base, exp, Some(modulus));
 }
 
-pub fn gcd(mut a: BigUint, mut b: BigUint) -> BigUint {
-    while b != BigUint::ZERO {
+pub fn gcd(mut a: BigInt, mut b: BigInt) -> BigInt {
+    while b != BigInt::ZERO {
         let temp = b.clone();
         b = &a % &b;
         println!("Remainder of {} / {} is {}", temp.to_str_radix(10), a.to_str_radix(10), b.to_str_radix(10));
