@@ -56,13 +56,34 @@ fn test_gcd() {
 #[test]
 fn test_mod_inverse() {
     assert_eq!(
-        mod_inverse(
+        mod_inverse_extended(
             BigInt::parse_bytes(b"3", 10).unwrap(),
             BigInt::parse_bytes(b"11", 10).unwrap()),
         BigInt::parse_bytes(b"4", 10).unwrap());
     assert_eq!(
-        mod_inverse(
+        mod_inverse_extended(
             BigInt::parse_bytes(b"123456789", 10).unwrap(),
             BigInt::parse_bytes(b"1000000007", 10).unwrap()),
         BigInt::parse_bytes(b"18633540", 10).unwrap());
+    assert_eq!(
+        mod_inverse_extended(
+            BigInt::parse_bytes(b"12311", 10).unwrap(),
+            BigInt::parse_bytes(b"91283", 10).unwrap()),
+        BigInt::parse_bytes(b"83542", 10).unwrap());
+
+    assert_eq!(
+        mod_inv(
+            BigInt::parse_bytes(b"3", 10).unwrap(),
+            BigInt::parse_bytes(b"11", 10).unwrap()),
+        BigInt::parse_bytes(b"4", 10).unwrap());
+    assert_eq!(
+        mod_inv(
+            BigInt::parse_bytes(b"123456789", 10).unwrap(),
+            BigInt::parse_bytes(b"1000000007", 10).unwrap()),
+        BigInt::parse_bytes(b"18633540", 10).unwrap());
+    assert_eq!(
+        mod_inv(
+            BigInt::parse_bytes(b"12311", 10).unwrap(),
+            BigInt::parse_bytes(b"91283", 10).unwrap()),
+        BigInt::parse_bytes(b"83542", 10).unwrap());
 }

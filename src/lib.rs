@@ -64,7 +64,7 @@ pub fn gcd(mut a: BigInt, mut b: BigInt) -> BigInt {
     return a;
 }
 
-pub fn mod_inverse(a: BigInt, n: BigInt) -> BigInt {
+pub fn mod_inverse_extended(a: BigInt, n: BigInt) -> BigInt {
     let mut t = BigInt::ZERO;
     let mut newt = BigInt::from(1u32);
     let mut r = n.clone();
@@ -88,4 +88,8 @@ pub fn mod_inverse(a: BigInt, n: BigInt) -> BigInt {
         t += &n;
     }
     return t;
+}
+
+pub fn mod_inv(a: BigInt, m: BigInt) -> BigInt {
+    return fast_pow_mod(a, &m - 2, m);
 }
