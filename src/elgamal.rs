@@ -42,3 +42,9 @@ pub fn eg_encrypt_with_k(params: &EgParams, key: &EgKeyPair, msg: &BigInt, k: Bi
     let c2 = msg * fast_pow_mod(&key.public, &k, &params.p) % &params.p;
     return (c1, c2);
 }
+
+pub fn eg_decrypt(params: &EgParams, key: &EgKeyPair, c1: &BigInt, c2: &BigInt) -> BigInt {
+    let x = fast_pow_mod(&c1, key.private.as_ref().unwrap(), &params.p);
+    let inv_x = mod_inv(&x, &params.p);
+    return inv_x * c2 % &params.p;
+}
