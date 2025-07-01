@@ -1,5 +1,6 @@
 
-use tetanus::*;
+use tetanus::math::*;
+
 
 #[test]
 fn test_fast_pow() {
