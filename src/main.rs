@@ -44,6 +44,15 @@ fn main() {
         let (_sign, msg_bytes) = msg.to_bytes_be();
         let msg_string = String::from_utf8(msg_bytes.clone()).expect("Invalid UTF-8");
         println!("{}", msg_string);
+    } else if command == "generate" {
+        let params = EgParams::generate(256usize);
+        let key = EgKeyPair::generate(&params);
+        println!(
+            " p: {}\n g: {}\n x: {}\n A: {}",
+            params.p.to_str_radix(10),
+            params.g.to_str_radix(10),
+            key.private.unwrap().to_str_radix(10),
+            key.public.to_str_radix(10));
     } else {
         panic!("Unknown command");
     }
