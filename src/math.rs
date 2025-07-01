@@ -1,7 +1,7 @@
 use num_bigint::BigInt;
 
 pub fn d(s: &str) -> BigInt {
-    return BigInt::parse_bytes(s.as_bytes(), 10).unwrap();
+    return BigInt::parse_bytes(s.as_bytes(), 10).expect(&format!("Cannot parse as base-10 bytes: {}", s));
 }
 
 fn fast_pow_mod_impl(base: &BigInt, exp: &BigInt, modulus: Option<BigInt>) -> BigInt {

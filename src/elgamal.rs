@@ -45,7 +45,6 @@ impl EgKeyPair {
 pub fn eg_encrypt(params: &EgParams, key: &EgKeyPair, msg: &BigInt) -> (BigInt, BigInt) {
     let mut rng = thread_rng();
     let k = rng.gen_bigint_range(&BigInt::ZERO, &params.p);
-    println!("\n k: {}", k.to_str_radix(10));
     return eg_encrypt_with_k(params, key, msg, k);
 }
 

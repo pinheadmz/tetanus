@@ -100,14 +100,7 @@ fn test_eg_generate() {
 
     let (c1, c2) = eg_encrypt(&params, &key, &msg);
     let msg_got = eg_decrypt(&params, &key, &c1, &c2);
-    println!(
-        " p: {}\n g: {}\n x: {}\n m: {}\n c1: {}\n c2: {}",
-        params.p.to_str_radix(10),
-        params.g.to_str_radix(10),
-        key.private.unwrap().to_str_radix(10),
-        msg.to_str_radix(10),
-        c1.to_str_radix(10),
-        c2.to_str_radix(10));
+
     assert_eq!(msg, msg_got);
 }
 
