@@ -1,4 +1,5 @@
-use num_bigint::{BigInt, RandBigInt};
+use num_bigint::{BigInt, RandBigInt, Sign};
+use num_primes::Generator;
 use rand::thread_rng;
 
 use crate::math::*;
@@ -6,6 +7,16 @@ use crate::math::*;
 pub struct EgParams {
     pub p: BigInt,
     pub g: BigInt,
+}
+
+impl EgParams {
+    pub fn generate(bits: usize) -> Self {
+        let big_prime = Generator::new_prime(bits);
+        let prime_bytes = big_prime.to_bytes_be();
+        return Self{
+            p: BigInt::from_bytes_be(Sign::Plus, &prime_bytes),
+            g: BigInt::from(2u32)};
+    }
 }
 
 pub struct EgKeyPair {
@@ -16,7 +27,7 @@ pub struct EgKeyPair {
 impl EgKeyPair {
     pub fn generate(params: &EgParams) -> Self {
         let mut rng = thread_rng();
-        let private = rng.gen_bigint(params.p.bits());
+        let private = rng.gen_bigint_range(&BigInt::ZERO, &params.p);
         let public = fast_pow_mod(&params.g, &private, &params.p);
         return Self{ private: Some(private), public };
     }
@@ -33,7 +44,8 @@ impl EgKeyPair {
 
 pub fn eg_encrypt(params: &EgParams, key: &EgKeyPair, msg: &BigInt) -> (BigInt, BigInt) {
     let mut rng = thread_rng();
-    let k = rng.gen_bigint(params.p.bits());
+    let k = rng.gen_bigint_range(&BigInt::ZERO, &params.p);
+    println!("\n k: {}", k.to_str_radix(10));
     return eg_encrypt_with_k(params, key, msg, k);
 }
 
