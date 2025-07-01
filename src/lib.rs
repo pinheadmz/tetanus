@@ -1,10 +1,11 @@
 use num_bigint::BigInt;
 
-pub fn fast_pow_mod_impl(base: BigInt, exp: BigInt, modulus: Option<BigInt>) -> BigInt {
-    println!("Exponent {} in binary: {}", exp.to_str_radix(10), exp.to_str_radix(2));
-    let bits: u64 = exp.bits();
+pub fn d(s: &str) -> BigInt {
+    return BigInt::parse_bytes(s.as_bytes(), 10).unwrap();
+}
 
-    println!("# of bits in exponent: {}", bits);
+pub fn fast_pow_mod_impl(base: BigInt, exp: BigInt, modulus: Option<BigInt>) -> BigInt {
+    let bits: u64 = exp.bits();
 
     let mut x = 0;
     let mut answer = BigInt::from(1u32);
@@ -15,10 +16,6 @@ pub fn fast_pow_mod_impl(base: BigInt, exp: BigInt, modulus: Option<BigInt>) -> 
             answer %= m;
         }
     }
-    println!("{}\n bit: {}\n answer: {}",
-        format!("{}^(2^0)=\n {}", base.to_str_radix(10), base.to_str_radix(10)),
-        bit,
-        answer.to_str_radix(10));
 
     let mut last = base.clone();
     x += 1;
@@ -35,10 +32,6 @@ pub fn fast_pow_mod_impl(base: BigInt, exp: BigInt, modulus: Option<BigInt>) -> 
             }
         }
 
-        println!("{}\n bit: {}\n answer: {}",
-            format!("{}^(2^{})=\n {}", base.to_str_radix(10), x, square.to_str_radix(10)),
-            bit,
-            answer.to_str_radix(10));
         x += 1;
         last = square;
     }
@@ -58,7 +51,6 @@ pub fn gcd(mut a: BigInt, mut b: BigInt) -> BigInt {
     while b != BigInt::ZERO {
         let temp = b.clone();
         b = &a % &b;
-        println!("Remainder of {} / {} is {}", temp.to_str_radix(10), a.to_str_radix(10), b.to_str_radix(10));
         a = temp.clone();
     }
     return a;
