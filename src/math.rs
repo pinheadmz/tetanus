@@ -4,14 +4,14 @@ pub fn d(s: &str) -> BigInt {
     return BigInt::parse_bytes(s.as_bytes(), 10).unwrap();
 }
 
-pub fn fast_pow_mod_impl(base: BigInt, exp: BigInt, modulus: Option<BigInt>) -> BigInt {
+pub fn fast_pow_mod_impl(base: &BigInt, exp: &BigInt, modulus: Option<BigInt>) -> BigInt {
     let bits: u64 = exp.bits();
 
     let mut x = 0;
     let mut answer = BigInt::from(1u32);
     let mut bit = if exp.bit(x) {1} else {0};
     if bit == 1 {
-        answer *= &base;
+        answer *= base;
         if let Some(m) = &modulus {
             answer %= m;
         }
@@ -39,15 +39,17 @@ pub fn fast_pow_mod_impl(base: BigInt, exp: BigInt, modulus: Option<BigInt>) -> 
     return answer;
 }
 
-pub fn fast_pow(base: BigInt, exp: BigInt) -> BigInt {
+pub fn fast_pow(base: &BigInt, exp: &BigInt) -> BigInt {
     return fast_pow_mod_impl(base, exp, None);
 }
 
-pub fn fast_pow_mod(base: BigInt, exp: BigInt, modulus: BigInt) -> BigInt {
-    return fast_pow_mod_impl(base, exp, Some(modulus));
+pub fn fast_pow_mod(base: &BigInt, exp: &BigInt, modulus: &BigInt) -> BigInt {
+    return fast_pow_mod_impl(base, exp, Some(modulus.clone()));
 }
 
-pub fn gcd(mut a: BigInt, mut b: BigInt) -> BigInt {
+pub fn gcd(a: &BigInt, b: &BigInt) -> BigInt {
+    let mut a = a.clone();
+    let mut b = b.clone();
     while b != BigInt::ZERO {
         let temp = b.clone();
         b = &a % &b;
@@ -56,7 +58,7 @@ pub fn gcd(mut a: BigInt, mut b: BigInt) -> BigInt {
     return a;
 }
 
-pub fn mod_inverse_extended(a: BigInt, n: BigInt) -> BigInt {
+pub fn mod_inverse_extended(a: &BigInt, n: &BigInt) -> BigInt {
     let mut t = BigInt::ZERO;
     let mut newt = BigInt::from(1u32);
     let mut r = n.clone();
@@ -77,11 +79,11 @@ pub fn mod_inverse_extended(a: BigInt, n: BigInt) -> BigInt {
     }
 
     if t < BigInt::ZERO {
-        t += &n;
+        t += n;
     }
     return t;
 }
 
-pub fn mod_inv(a: BigInt, m: BigInt) -> BigInt {
-    return fast_pow_mod(a, &m - 2, m);
+pub fn mod_inv(a: &BigInt, m: &BigInt) -> BigInt {
+    return fast_pow_mod(a, &(m - BigInt::from(2u32)), m);
 }
