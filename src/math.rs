@@ -4,7 +4,7 @@ pub fn d(s: &str) -> BigInt {
     return BigInt::parse_bytes(s.as_bytes(), 10).unwrap();
 }
 
-pub fn fast_pow_mod_impl(base: &BigInt, exp: &BigInt, modulus: Option<BigInt>) -> BigInt {
+fn fast_pow_mod_impl(base: &BigInt, exp: &BigInt, modulus: Option<BigInt>) -> BigInt {
     let bits: u64 = exp.bits();
 
     let mut x = 0;

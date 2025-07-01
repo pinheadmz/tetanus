@@ -1,0 +1,44 @@
+use num_bigint::{BigInt, RandBigInt};
+use rand::thread_rng;
+
+use crate::math::*;
+
+pub struct EgParams {
+    pub p: BigInt,
+    pub g: BigInt,
+}
+
+pub struct EgKeyPair {
+    pub private: Option<BigInt>,
+    pub public: BigInt,
+}
+
+impl EgKeyPair {
+    pub fn generate(params: &EgParams) -> Self {
+        let mut rng = thread_rng();
+        let private = rng.gen_bigint(params.p.bits());
+        let public = fast_pow_mod(&params.g, &private, &params.p);
+        return Self{ private: Some(private), public };
+    }
+
+    pub fn from_private(params: &EgParams, private: &BigInt) -> Self {
+        let public = fast_pow_mod(&params.g, &private, &params.p);
+        return Self{ private: Some(private.clone()), public };
+    }
+
+    pub fn from_public(public: BigInt) -> Self {
+        return Self{ private: None, public };
+    }
+}
+
+pub fn eg_encrypt(params: &EgParams, key: &EgKeyPair, msg: &BigInt) -> (BigInt, BigInt) {
+    let mut rng = thread_rng();
+    let k = rng.gen_bigint(params.p.bits());
+    return eg_encrypt_with_k(params, key, msg, k);
+}
+
+pub fn eg_encrypt_with_k(params: &EgParams, key: &EgKeyPair, msg: &BigInt, k: BigInt) -> (BigInt, BigInt) {
+    let c1 = fast_pow_mod(&params.g, &k, &params.p);
+    let c2 = msg * fast_pow_mod(&key.public, &k, &params.p) % &params.p;
+    return (c1, c2);
+}
